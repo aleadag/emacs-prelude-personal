@@ -4,7 +4,7 @@
 
 (eval-after-load 'org
   '(progn
-     (defvar awang/org-dir "E:/Users/awang/Dropbox/Org")
+     (defvar awang/org-dir (expand-file-name "~/Dropbox/Org"))
      (setq org-directory awang/org-dir)
 
      (define-key global-map "\C-cc" 'org-capture)

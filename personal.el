@@ -2,8 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(setenv "PATH" (concat "E:\\cygwin\\bin;" (getenv "PATH")))
-(add-to-list 'exec-path "E:\\cygwin\\bin")
+(setenv "PATH" (concat "C:\\cygwin\\bin;" (getenv "PATH")))
+(add-to-list 'exec-path "C:\\cygwin\\bin")
 
 ;; Additional modules
 (prelude-ensure-module-deps '(maxframe w3m bookmark+ instapaper))
