@@ -1,19 +1,72 @@
-;; Here are some examples of how to override the defaults for the
-;; various prelude-emacs settings.  To *append* to any of the
-;; configurations attached to prelude-*-hooks, you can attach a
-;; function to the appropriate hook:
+;;; package --- Summary
+;;; Commentary:
+;;; Code:
 
-;; disable whitespace-mode and whitespace-cleanup
-;; (add-hook 'prelude-prog-mode-hook
-;;           (lambda ()
-;;             (prelude-turn-off-whitespace)
-;;             (remove-hook 'before-save-hook 'whitespace-cleanup)) t)
+(setenv "PATH" (concat "E:\\cygwin\\bin;" (getenv "PATH")))
+(add-to-list 'exec-path "E:\\cygwin\\bin")
 
-;; For other global settings, just run the appropriate function; all
-;; personal/*.el files will be evaluate after prelude-emacs is loaded.
+;; Additional modules
+(prelude-ensure-module-deps '(maxframe w3m bookmark+ instapaper))
 
-;; disable line highlight
-;; (global-hl-line-mode -1)
+;; disable scroll ba
+(scroll-bar-mode -1)
 
-;; make the cursor blinking
-;; (blink-cursor-mode t)
+;; Set the font
+(when (and (>= emacs-major-version 22))
+  (let ((font-name "Consolas:pixelsize=18:foundry=unknown")
+        (fontset nil)
+        (zh-font (font-spec :family "Microsoft YaHei" :size 18)))
+    (set-frame-font font-name)
+
+    (setq fontset (frame-parameter nil 'font))
+    ;; Set the Chinese font
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font fontset charset zh-font))
+    (add-to-list 'default-frame-alist `(font . ,fontset))))
+
+;; Configure for windows/cygwin
+(setq shell-file-name "bash")
+(setq-default ispell-program-name "aspell")
+
+;; w3m setttings
+(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+
+(setq browse-url-browser-function 'w3m-browse-url)
+
+(defun w3m-browse-url-other-window (url &optional newwin)
+  (let ((w3m-pop-up-windows t))
+    (if (one-window-p) (split-window))
+    (other-window 1)
+    (w3m-browse-url url newwin)))
+
+(eval-after-load 'w3m
+  '(progn
+     (setq w3m-use-cookies t)
+
+     (defun awang/w3m-rename-buffer (url)
+       "Suitable for adding to `w3m-display-hook'."
+       (rename-buffer (format "*w3m %s (%s)*"
+                              (or w3m-current-title "")
+                              (or w3m-current-url "")) t))
+
+     (defadvice w3m-browse-url (around awang activate)
+       "Always start a new session."
+       (ad-set-arg 1 t)
+       ad-do-it)
+
+     (add-hook 'w3m-display-hook 'awang/w3m-rename-buffer)
+
+     (global-set-key "\C-xm" 'browse-url-at-point)))
+
+;; Enable max frame
+(require 'maxframe)
+(add-hook 'window-setup-hook 'maximize-frame t)
+
+;; Enable bookmark+
+(require 'bookmark+)
+
+(require 'instapaper)
+(define-key w3m-mode-map "i" 'instapaper-add-from-w3m)
+
+(provide 'awang)
+;;; awang-font ends here
