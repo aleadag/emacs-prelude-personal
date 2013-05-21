@@ -6,7 +6,11 @@
 (add-to-list 'exec-path "C:\\cygwin\\bin")
 
 ;; Additional modules
-(prelude-ensure-module-deps '(maxframe w3m bookmark+ instapaper))
+(prelude-ensure-module-deps '(maxframe
+                              w3m
+                              bookmark+
+                              instapaper
+                              itail))
 
 ;; disable scroll ba
 (scroll-bar-mode -1)
@@ -68,5 +72,7 @@
 (require 'instapaper)
 (define-key w3m-mode-map "i" 'instapaper-add-from-w3m)
 
-(provide 'awang)
-;;; awang-font ends here
+(require 'itail)
+
+(provide 'personal)
+;;; personal ends here

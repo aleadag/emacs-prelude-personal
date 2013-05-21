@@ -13,6 +13,8 @@
            '(
              ("t" "Todo" entry (file+headline (expand-file-name "mygtd.org" awang/org-dir) "Tasks")
               "* TODO %^{Brief Description} %^g\n%?\nAdded: %U")
+             ("c" "CZWC" entry (file+datetree (expand-file-name "czwc.org" awang/org-dir))
+              "* %?\n %i\n Entered on %U")
              ("p" "Private" entry (file (expand-file-name "privnotes.org" awang/org-dir))
               "\n* %^{topic} %T \n%i%?\n")
              ("j" "Journal" entry (file+datetree (expand-file-name "journal.org" awang/org-dir))
