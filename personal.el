@@ -2,15 +2,25 @@
 ;;; Commentary:
 ;;; Code:
 
-(setenv "PATH" (concat "C:\\cygwin\\bin;" (getenv "PATH")))
-(add-to-list 'exec-path "C:\\cygwin\\bin")
-
 ;; Additional modules
 (prelude-ensure-module-deps '(maxframe
                               w3m
                               bookmark+
                               instapaper
                               itail))
+
+;; Configure for windows/cygwin
+(defvar awang/cygwin-bin "C:/cygwin/bin")
+(setenv "PATH" (concat awang/cygwin-bin ";"
+                       (getenv "PATH")))
+(add-to-list 'exec-path awang/cygwin-bin)
+(setq explicit-shell-file-name (expand-file-name "bash.exe" awang/cygwin-bin))
+(setq shell-file-name "bash")
+(setq explicit-bash.exe-args '("--noediting" "--login" "-i"))
+(setenv "SHELL" shell-file-name)
+(add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+
+(setq-default ispell-program-name "aspell")
 
 ;; disable scroll ba
 (scroll-bar-mode -1)
@@ -28,11 +38,7 @@
       (set-fontset-font fontset charset zh-font))
     (add-to-list 'default-frame-alist `(font . ,fontset))))
 
-;; Configure for windows/cygwin
-(setq shell-file-name "bash")
-(setq-default ispell-program-name "aspell")
-
-;; w3m setttings
+;; w3m settings
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 
 (setq browse-url-browser-function 'w3m-browse-url)
