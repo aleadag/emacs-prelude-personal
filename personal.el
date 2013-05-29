@@ -22,8 +22,15 @@
 
 (setq-default ispell-program-name "aspell")
 
-;; disable scroll ba
+;;;
+;;; Nice options to have On by default
+;;;
 (scroll-bar-mode -1)
+(mouse-wheel-mode t)
+(transient-mark-mode t)
+(delete-selection-mode t)
+(show-paren-mode t)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Set the font
 (when (and (>= emacs-major-version 22))
@@ -55,9 +62,8 @@
 
      (defun awang/w3m-rename-buffer (url)
        "Suitable for adding to `w3m-display-hook'."
-       (rename-buffer (format "*w3m %s (%s)*"
-                              (or w3m-current-title "")
-                              (or w3m-current-url "")) t))
+       (rename-buffer (format "*w3m %s*"
+                              (or w3m-current-title ""))))
 
      (defadvice w3m-browse-url (around awang activate)
        "Always start a new session."

@@ -5,10 +5,10 @@
                                      "#emacs" "#ruby" "#lisp" "#clojure"
                                      "#scala" "#haskell")))
 ;; set your nickname
-(setq erc-nick "bozhidar")
+(setq erc-nick "awang")
 
 ;; share your username (optional)
-(setq erc-user-full-name "Bozhidar Batsov")
+(setq erc-user-full-name "Alexander Wang")
 
 ;; auto identify
 (when (file-exists-p (expand-file-name "~/.ercpass"))
