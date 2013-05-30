@@ -63,7 +63,7 @@
      (defun awang/w3m-rename-buffer (url)
        "Suitable for adding to `w3m-display-hook'."
        (rename-buffer (format "*w3m %s*"
-                              (or w3m-current-title ""))))
+                              (or w3m-current-url ""))))
 
      (defadvice w3m-browse-url (around awang activate)
        "Always start a new session."
@@ -71,6 +71,13 @@
        ad-do-it)
 
      (add-hook 'w3m-display-hook 'awang/w3m-rename-buffer)
+
+     (require 'instapaper)
+     (setq instapaper-api-base "http://www.instapaper.com/api/")
+     (defadvice instapaper-add-from-w3m (around awang activate)
+       (ad-set-arg 1 w3m-current-title)
+       ad-do-it)
+     (define-key w3m-mode-map "i" 'instapaper-add-from-w3m)
 
      (global-set-key "\C-xm" 'browse-url-at-point)))
 
@@ -81,10 +88,11 @@
 ;; Enable bookmark+
 (require 'bookmark+)
 
-(require 'instapaper)
-(define-key w3m-mode-map "i" 'instapaper-add-from-w3m)
-
 (require 'itail)
 
+(require 'tramp)
+(setq tramp-default-method "scp")
+
 (provide 'personal)
+
 ;;; personal ends here
